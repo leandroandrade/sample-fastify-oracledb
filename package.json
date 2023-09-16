@@ -1,10 +1,10 @@
 {
-  "name": "fastify-cjs",
+  "name": "sample-fastify-oracledb",
   "version": "1.0.0",
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test dotenv -e .env.test -- tap --no-coverage",
+    "test": "cross-env NODE_ENV=test dotenv -e .env.test -- tap",
     "test:coverage": "cross-env NODE_ENV=test dotenv -e .env.test -- tap --coverage",
     "dev": "nodemon",
     "start": "node src/server.js"
@@ -14,31 +14,29 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/leandroandrade/fastify-cjs.git"
+    "url": "git+https://github.com/leandroandrade/sample-fastify-oracledb.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/leandroandrade/fastify-cjs/issues"
+    "url": "https://github.com/leandroandrade/sample-fastify-oracledb/issues"
   },
-  "homepage": "https://github.com/leandroandrade/fastify-cjs#readme",
+  "homepage": "https://github.com/leandroandrade/sample-fastify-oracledb#readme",
   "dependencies": {
     "@fastify/autoload": "^5.7.1",
-    "@fastify/swagger": "^8.8.0",
-    "@fastify/swagger-ui": "^1.9.3",
     "close-with-grace": "^1.2.0",
-    "fastify": "^4.21.0",
+    "fastify": "^4.23.2",
     "fastify-plugin": "^4.5.1"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "dotenv-cli": "^7.2.1",
-    "eslint": "^8.46.0",
+    "dotenv-cli": "^7.3.0",
+    "eslint": "^8.49.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.28.0",
+    "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-security": "^1.7.1",
     "nodemon": "^3.0.1",
-    "tap": "^16.3.8"
+    "tap": "^18.0.1"
   },
   "nodemonConfig": {
     "watch": [
