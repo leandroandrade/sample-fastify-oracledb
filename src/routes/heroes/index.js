@@ -1,5 +1,11 @@
 module.exports = async (fastify, opts) => {
-    fastify.get('/', (req, reply) => {
+    fastify.get('/', async (req, reply) => {
+        const conn = await fastify.oracle.getConnection()
+        const result = await conn.execute('SELECT 1 AS FOO FROM DUAL', {}, { outFormat: fastify.oracle.db.OBJECT })
+
+        console.log(result)
+
+        await conn.close()
         return {message: 'get all heroes'}
     });
 

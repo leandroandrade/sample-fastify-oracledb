@@ -19,7 +19,7 @@ Configuring .env file
 cp .env.example .env
 ```
 
-Starting application like development:
+Starting application development mode:
 
 ```shell
 npm run dev
@@ -38,7 +38,8 @@ http://localhost:3000/api
 
 ## Apple Silicon
 
-Currently, there is no Oracle Database port for ARM chips, hence Oracle XE images cannot run on the new Apple Silicon chips via Docker Desktop or OrbStack, but there are other technologies that can spin up `x86_64` software on Apple Silicon chips, such as [colima](https://github.com/abiosoft/colima). To run, install colima ([instructions](https://github.com/abiosoft/colima#installation)).
+Currently, there is no Oracle Database port for ARM chips, hence Oracle XE images cannot run on the new Apple Silicon chips via Docker Desktop or OrbStack, but there are other technologies that can spin up `x86_64` software on Apple Silicon chips, such as [colima](https://github.com/abiosoft/colima). 
+To run, install colima ([instructions](https://github.com/abiosoft/colima#installation)).
 
 Run **colima**:
 ```sh
