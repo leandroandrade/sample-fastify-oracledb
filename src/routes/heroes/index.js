@@ -1,27 +1,52 @@
 module.exports = async (fastify, opts) => {
-    fastify.get('/', async (req, reply) => {
-        const conn = await fastify.oracle.getConnection()
-        const result = await conn.execute('SELECT * FROM heroes', {}, { outFormat: fastify.oracle.db.OBJECT })
+  fastify.get('/', async (req, reply) => {
+    const { rows } = await fastify.oracle.query('SELECT * FROM heroes');
+    return rows;
+  });
 
-        console.log(result)
+  fastify.get('/:id', async (req, reply) => {
+    const { id } = req.params;
 
-        await conn.close()
-        return {message: 'get all heroes'}
+    const { rows } = await fastify.oracle.query('SELECT * FROM heroes where hero_id = :id', [id]);
+    // TODO: validate whether rows is empty
+    const [result] = rows;
+    return result;
+  });
+
+  fastify.post('/', async (req, reply) => {
+    const { name, description } = req.body;
+    const id = Math.floor(Math.random() * 1000);
+
+    const res = await fastify.oracle.transact(conn => {
+      return conn.execute('INSERT INTO heroes values (:id, :name, :description)', {
+        id,
+        name,
+        description,
+      });
     });
 
-    fastify.get('/:id', (req, reply) => {
-        return {message: 'get hero by id'}
+    fastify.log.info(`rows affected: ${res.rowsAffected}`);
+
+    return reply
+      .status(201)
+      .send({ id, name, description });
+  });
+
+  fastify.put('/:id', (req, reply) => {
+    return { message: 'put hero by id' };
+  });
+
+  fastify.delete('/:id', async (req, reply) => {
+    const { id } = req.params;
+
+    const res = await fastify.oracle.transact(conn => {
+      return conn.execute('DELETE FROM heroes where hero_id = :id ', { id });
     });
 
-    fastify.post('/', (req, reply) => {
-        return {message: 'post hero'}
-    });
+    fastify.log.info(`rows affected: ${res.rowsAffected}`);
 
-    fastify.put('/:id', (req, reply) => {
-        return {message: 'put hero by id'}
-    });
-
-    fastify.delete('/:id', (req, reply) => {
-        return {message: 'delete hero by id'}
-    });
+    return reply
+      .status(204)
+      .send();
+  });
 };
