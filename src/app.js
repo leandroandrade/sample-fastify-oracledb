@@ -7,8 +7,8 @@ async function appPlugin(app, config) {
     dir: join(__dirname, 'plugins'),
     options: {
       pool: {
-        user: 'oracle',
-        password: 'oracle',
+        user: 'test',
+        password: 'test',
         connectString: '127.0.0.1:1521/XEPDB1'
       },
       // name: 'testdb',

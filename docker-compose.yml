@@ -11,7 +11,7 @@ services:
       - APP_USER=oracle
       - ORACLE_PASSWORD=oracle
     volumes:
-      - storage:/opt/oracle/oradata
+      - ./init_scripts:/container-entrypoint-initdb.d
     networks:
       - local-net
 
