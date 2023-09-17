@@ -7,7 +7,7 @@ module.exports = async (fastify, opts) => {
   fastify.get('/:id', async (req, reply) => {
     const { id } = req.params;
 
-    const { rows } = await fastify.oracle.query('SELECT * FROM heroes where hero_id = :id', [id]);
+    const { rows } = await fastify.oracle.query('SELECT * FROM heroes where hero_id = :id', { id });
     if (!rows || !rows.length) {
       return reply.status(404).send({
         statusCode: 404,
