@@ -43,6 +43,20 @@ test('should fetch hero by id', async (t) => {
   t.equal(returnedHero.DESCRIPTION, hero.description);
 });
 
+test('should return `404` when a hero does not exist', async (t) => {
+  const res = await fastify.inject({
+    method: 'GET',
+    url: '/api/heroes/123',
+  });
+
+  t.equal(res.statusCode, 404);
+  t.same(res.json(), {
+    statusCode: 404,
+    error: 'Not Found',
+    message: 'Hero 123 not found!',
+  });
+});
+
 test('should persist a hero', async (t) => {
   const name = faker.person.firstName();
   const description = faker.lorem.words();

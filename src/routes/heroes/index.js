@@ -8,7 +8,14 @@ module.exports = async (fastify, opts) => {
     const { id } = req.params;
 
     const { rows } = await fastify.oracle.query('SELECT * FROM heroes where hero_id = :id', [id]);
-    // TODO: validate whether rows is empty
+    if (!rows || !rows.length) {
+      return reply.status(404).send({
+        statusCode: 404,
+        error: 'Not Found',
+        message: `Hero ${id} not found!`,
+      });
+    }
+
     const [result] = rows;
     return result;
   });
