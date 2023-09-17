@@ -1,4 +1,5 @@
 const t = require('tap');
+const { faker } = require('@faker-js/faker');
 const {
   buildApp, clearTable, createHeroes, createHero,
 } = require('../shared/helper');
@@ -42,22 +43,29 @@ test('should fetch hero by id', async (t) => {
   t.equal(returnedHero.DESCRIPTION, hero.description);
 });
 
-// test('should persist hero', async (t) => {
-//   const fastify = await buildApp(t);
-//
-//   const response = await fastify.inject({
-//     method: 'POST',
-//     url: '/api/heroes',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     payload: {
-//
-//     },
-//   });
-//   t.equal(response.statusCode, 200);
-// });
-//
+test('should persist a hero', async (t) => {
+  const name = faker.person.firstName();
+  const description = faker.lorem.words();
+
+  const res = await fastify.inject({
+    method: 'POST',
+    url: '/api/heroes',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    payload: {
+      name,
+      description,
+    },
+  });
+
+  t.equal(res.statusCode, 201);
+
+  const newHero = res.json();
+  t.equal(newHero.name, name);
+  t.equal(newHero.description, description);
+});
+
 // test('should update hero', async (t) => {
 //   const fastify = await buildApp(t);
 //
