@@ -1,7 +1,6 @@
 const Fastify = require('fastify');
 const { faker } = require('@faker-js/faker');
 
-const { errorCodes } = require('fastify');
 const appPlugin = require('../../src/app');
 const configs = require('../../src/configs');
 
@@ -49,9 +48,20 @@ async function createHero(fastify) {
   });
 }
 
+async function getHeroById(fastify, id) {
+  const { rows } = await fastify.oracle.query('SELECT * FROM heroes where hero_id = :id', [id]);
+  if (!rows || !rows.length) {
+    return null;
+  }
+
+  const [result] = rows;
+  return result;
+}
+
 module.exports = {
   buildApp,
   createHeroes,
   clearTable,
   createHero,
+  getHeroById,
 };
