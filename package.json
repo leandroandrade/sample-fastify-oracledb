@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test dotenv -e .env.test -- tap",
+    "test": "cross-env NODE_ENV=test dotenv -e .env.test -- tap --no-coverage",
     "test:coverage": "cross-env NODE_ENV=test dotenv -e .env.test -- tap --coverage",
     "dev": "nodemon",
     "start": "node src/server.js"
@@ -35,7 +35,7 @@
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-security": "^1.7.1",
     "nodemon": "^3.0.1",
-    "tap": "^18.0.3"
+    "tap": "^16.3.8"
   },
   "nodemonConfig": {
     "watch": [
