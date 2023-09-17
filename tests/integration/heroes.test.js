@@ -87,12 +87,16 @@ test('should update hero name', async (t) => {
   t.equal(heroFromDB.NAME, newName);
 });
 
-// test('should delete hero', async (t) => {
-//   const fastify = await buildApp(t);
-//
-//   const response = await fastify.inject({
-//     method: 'DELETE',
-//     url: '/api/heroes/1',
-//   });
-//   t.equal(response.statusCode, 200);
-// });
+test('should delete hero', async (t) => {
+  const hero = await createHero(fastify);
+
+  const response = await fastify.inject({
+    method: 'DELETE',
+    url: `/api/heroes/${hero.id}`,
+  });
+
+  t.equal(response.statusCode, 204);
+
+  const heroFromDB = await getHeroById(fastify, hero.id);
+  t.ok(heroFromDB == null);
+});
