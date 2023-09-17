@@ -3,7 +3,7 @@ GET http://localhost:3000/api/heroes
 Content-Type: application/json
 
 ### hero by id
-GET http://localhost:3000/api/heroes/1
+GET http://localhost:3000/api/heroes/704
 Content-Type: application/json
 
 ### new hero
@@ -11,9 +11,19 @@ POST http://localhost:3000/api/heroes
 Content-Type: application/json
 
 {
-  "name": "Hero 1",
-  "description": "A great hero to test"
+  "name": "Hero XXX",
+  "description": "Wrong descrption"
 }
 
 ### delete hero by id
 DELETE http://localhost:3000/api/heroes/623
+
+
+### update hero
+PUT http://localhost:3000/api/heroes/704
+Content-Type: application/json
+
+{
+  "name": "Spider Man",
+  "description": "The amazing guy"
+}

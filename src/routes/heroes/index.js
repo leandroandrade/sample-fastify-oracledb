@@ -32,8 +32,35 @@ module.exports = async (fastify, opts) => {
       .send({ id, name, description });
   });
 
-  fastify.put('/:id', (req, reply) => {
-    return { message: 'put hero by id' };
+  fastify.put('/:id', async (req, reply) => {
+    const { id } = req.params;
+    const { name, description } = req.body;
+
+    const params = { id };
+    const conditions = [];
+
+    if (name && name.length) {
+      conditions.push('name = :name');
+      params.name = name;
+    }
+
+    if (description && description.length) {
+      conditions.push('description = :description');
+      params.description = description;
+    }
+
+    const fields = conditions.join(', ');
+    const query = `UPDATE heroes set ${fields} where hero_id = :id`;
+
+    const res = await fastify.oracle.transact(conn => {
+      return conn.execute(query, params);
+    });
+
+    fastify.log.info(`rows affected: ${res.rowsAffected}`);
+
+    return reply
+      .status(204)
+      .send();
   });
 
   fastify.delete('/:id', async (req, reply) => {
