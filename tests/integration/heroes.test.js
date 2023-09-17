@@ -87,6 +87,27 @@ test('should update hero name', async (t) => {
   t.equal(heroFromDB.NAME, newName);
 });
 
+test('should update hero description', async (t) => {
+  const hero = await createHero(fastify);
+  const newDescription = `random description ${faker.lorem.words()}`;
+
+  const res = await fastify.inject({
+    method: 'PUT',
+    url: `/api/heroes/${hero.id}`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    payload: {
+      description: newDescription,
+    },
+  });
+
+  t.equal(res.statusCode, 204);
+
+  const heroFromDB = await getHeroById(fastify, hero.id);
+  t.equal(heroFromDB.DESCRIPTION, newDescription);
+});
+
 test('should delete hero', async (t) => {
   const hero = await createHero(fastify);
 
