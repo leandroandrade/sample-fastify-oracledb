@@ -27,6 +27,7 @@
     "oracledb": "^6.1.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
     "cross-env": "^7.0.3",
     "dotenv-cli": "^7.3.0",
     "eslint": "^8.49.0",
