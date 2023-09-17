@@ -9,11 +9,13 @@ async function appPlugin(app, config) {
       pool: {
         user: 'test',
         password: 'test',
-        connectString: '127.0.0.1:1521/XEPDB1'
+        connectString: '127.0.0.1:1521/XEPDB1',
+
+        poolMin: 8,
+        poolMax: 32,
       },
-      // name: 'testdb',
-      outFormat: 'OBJECT'
-    }
+      outFormat: 'OBJECT',
+    },
   }).register(autoLoad, {
     dir: join(__dirname, 'decorators'),
   }).register(autoLoad, {
