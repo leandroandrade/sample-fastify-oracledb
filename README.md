@@ -1,12 +1,7 @@
-# fastify-cjs
+# sample-fastify-oracledb
 
-Sample boilerplate using fastify with commonjs.
+Sample project o how to use `fastify-oracledb`
 
-## Requirements
-* Node.js
-    * version: >=16.0.0
-* NPM
-* Git
 
 ## Get started
 
@@ -24,7 +19,7 @@ Configuring .env file
 cp .env.example .env
 ```
 
-Starting application like development:
+Starting application development mode:
 
 ```shell
 npm run dev
@@ -41,41 +36,30 @@ Base url to API:
 http://localhost:3000/api
 ```
 
-To access the API documentation, you can use the link below:
+## Apple Silicon
 
-```
-http://localhost:3000/docs
-```
+Currently, there is no Oracle Database port for ARM chips, hence Oracle XE images cannot run on the new Apple Silicon chips via Docker Desktop or OrbStack, but there are other technologies that can spin up `x86_64` software on Apple Silicon chips, such as [colima](https://github.com/abiosoft/colima). 
+To run, install colima ([instructions](https://github.com/abiosoft/colima#installation)).
 
-
-## Production
-
-Starting application in production environment:
-
-```shell
-docker compose -f docker-compose-production.yml up -d
+Run **colima**:
+```sh
+colima start --arch x86_64 --memory 6
 ```
 
-Stopping application in production environment:
-
-```shell
-docker compose -f docker-compose-production.yml down -v
+Start containers:
+```sh
+docker compose up -d
 ```
 
-Base url to API:
-```
-http://localhost:8080/api
-```
-
-To access the API documentation, you can use the link below:
-
-```
-http://localhost:8080/docs
+Stop containers:
+```sh
+docker compose down -v
 ```
 
-## Requests
-
-All the API requests are available into  ```requests``` directory into root path of project.
+Stop **colima**:
+```sh
+colima stop
+```
 
 ## License
 

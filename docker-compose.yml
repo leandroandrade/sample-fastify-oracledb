@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  oracle-db:
+    image: gvenzl/oracle-xe:21
+    container_name: oracle-xe
+    ports:
+      - "1521:1521"
+    environment:
+      - APP_USER_PASSWORD=oracle
+      - APP_USER=oracle
+      - ORACLE_PASSWORD=oracle
+    volumes:
+      - ./init_scripts:/container-entrypoint-initdb.d
+    networks:
+      - local-net
+
+networks:
+  local-net:
+    driver: bridge
+
+volumes:
+  storage:
