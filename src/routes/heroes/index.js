@@ -1,4 +1,33 @@
+const { faker } = require('@faker-js/faker');
+
 module.exports = async (fastify, opts) => {
+  fastify.get('/seed/:total', async (req, reply) => {
+    const { total } = req.params;
+
+    const sql = 'INSERT INTO heroes values (:id, :name, :description)';
+    const binds = [];
+
+    for (let i = 0; i < total; i++) {
+      binds.push({
+        id: faker.number.int({ max: Number.MAX_SAFE_INTEGER }),
+        name: faker.person.firstName(),
+        description: faker.lorem.words(),
+      });
+    }
+
+    const connection = await fastify.oracle.getConnection();
+    await connection.executeMany(sql, binds, {
+      autoCommit: true,
+    });
+    await connection.close();
+
+    return reply
+      .status(200)
+      .send({
+        message: 'Database seeded successfully!',
+      });
+  });
+
   fastify.get('/', async (req, reply) => {
     const { rows } = await fastify.oracle.query('SELECT * FROM heroes');
     return rows;

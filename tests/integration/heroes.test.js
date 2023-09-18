@@ -14,6 +14,20 @@ t.beforeEach(async t => {
   await clearTable(fastify);
 });
 
+test('should seed database', async (t) => {
+  const totalHeroes = 10;
+
+  const res = await fastify.inject({
+    method: 'GET',
+    url: `/api/heroes/seed/${totalHeroes}`,
+  });
+
+  t.equal(res.statusCode, 200);
+  t.same(res.json(), {
+    message: 'Database seeded successfully!',
+  });
+});
+
 test('should fetch all heroes', async (t) => {
   const totalHeroes = 10;
   await createHeroes(fastify, totalHeroes);

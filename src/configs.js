@@ -12,4 +12,5 @@ module.exports = {
       useDefaults: true,
     },
   },
+  disableRequestLogging: true,
 };

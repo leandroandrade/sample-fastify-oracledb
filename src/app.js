@@ -13,6 +13,7 @@ async function appPlugin(app, config) {
 
         poolMin: 8,
         poolMax: 32,
+        enableStatistics: true,
       },
       outFormat: 'OBJECT',
     },

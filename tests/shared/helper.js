@@ -19,15 +19,22 @@ async function clearTable(fastify) {
 }
 
 async function createHeroes(fastify, size) {
+  const sql = 'INSERT INTO heroes values (:id, :name, :description)';
+  const binds = [];
+
   for (let i = 0; i < size; i++) {
-    await fastify.oracle.transact(conn => {
-      return conn.execute('INSERT INTO heroes values (:id, :name, :description)', {
-        id: faker.number.int(1000),
-        name: faker.person.firstName(),
-        description: faker.lorem.words(),
-      });
+    binds.push({
+      id: faker.number.int({ max: Number.MAX_SAFE_INTEGER }),
+      name: faker.person.firstName(),
+      description: faker.lorem.words(),
     });
   }
+
+  const connection = await fastify.oracle.getConnection();
+  await connection.executeMany(sql, binds, {
+    autoCommit: true,
+  });
+  await connection.close();
 }
 
 async function createHero(fastify) {
