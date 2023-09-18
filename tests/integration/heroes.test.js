@@ -1,7 +1,7 @@
 const t = require('tap');
 const { faker } = require('@faker-js/faker');
 const {
-  buildApp, clearTable, createHeroes, createHero, getHeroById,
+  buildApp, clearTable, createHeroes, createHero, getHeroById, getHeroes,
 } = require('../shared/helper');
 
 const { test } = t;
@@ -26,6 +26,9 @@ test('should seed database', async (t) => {
   t.same(res.json(), {
     message: 'Database seeded successfully!',
   });
+
+  const heroes = await getHeroes(fastify);
+  t.equal(heroes.length, 10);
 });
 
 test('should fetch all heroes', async (t) => {

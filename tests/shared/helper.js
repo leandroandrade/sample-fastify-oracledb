@@ -18,6 +18,11 @@ async function clearTable(fastify) {
   await fastify.oracle.query('TRUNCATE TABLE heroes');
 }
 
+async function getHeroes(fastify) {
+  const { rows } = await fastify.oracle.query('SELECT * FROM heroes');
+  return rows;
+}
+
 async function createHeroes(fastify, size) {
   const sql = 'INSERT INTO heroes values (:id, :name, :description)';
   const binds = [];
@@ -67,6 +72,7 @@ async function getHeroById(fastify, id) {
 
 module.exports = {
   buildApp,
+  getHeroes,
   createHeroes,
   clearTable,
   createHero,
