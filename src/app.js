@@ -18,8 +18,6 @@ async function appPlugin(app, config) {
       outFormat: 'OBJECT',
     },
   }).register(autoLoad, {
-    dir: join(__dirname, 'decorators'),
-  }).register(autoLoad, {
     dir: join(__dirname, 'routes'),
     options: { prefix: 'api' },
   });
