@@ -4,8 +4,8 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test dotenv -e .env.test -- tap --no-coverage",
-    "test:coverage": "cross-env NODE_ENV=test dotenv -e .env.test -- tap --coverage",
+    "test": "dotenv -e .env.test -- tap --no-coverage",
+    "test:coverage": "dotenv -e .env.test -- tap --coverage",
     "dev": "nodemon",
     "start": "node src/server.js"
   },
@@ -28,7 +28,6 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
-    "cross-env": "^7.0.3",
     "dotenv-cli": "^7.3.0",
     "eslint": "^8.49.0",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -45,6 +44,6 @@
     "ignore": [
       "node_modules"
     ],
-    "exec": "cross-env NODE_ENV=development dotenv -e .env -- node src/server.js"
+    "exec": "dotenv -e .env -- node src/server.js"
   }
 }
