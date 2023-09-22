@@ -1,6 +1,7 @@
 const Fastify = require('fastify');
 const { faker } = require('@faker-js/faker');
 
+const oracledb = require('oracledb');
 const appPlugin = require('../../src/app');
 const configs = require('./configs-test');
 
@@ -24,12 +25,11 @@ async function getHeroes(fastify) {
 }
 
 async function createHeroes(fastify, size) {
-  const sql = 'INSERT INTO heroes values (:id, :name, :description)';
+  const sql = 'INSERT INTO heroes (name, description) values (:name, :description)';
   const binds = [];
 
   for (let i = 0; i < size; i++) {
     binds.push({
-      id: faker.number.int({ max: Number.MAX_SAFE_INTEGER }),
       name: faker.person.firstName(),
       description: faker.lorem.words(),
     });
@@ -43,17 +43,17 @@ async function createHeroes(fastify, size) {
 }
 
 async function createHero(fastify) {
-  const id = faker.number.int(1000);
   const name = faker.person.firstName();
   const description = faker.lorem.words();
 
   return await fastify.oracle.transact(async conn => {
-    await conn.execute('INSERT INTO heroes values (:id, :name, :description)', {
-      id,
+    const res = await conn.execute('INSERT INTO heroes (name, description) values (:name, :description) RETURN hero_id INTO :id', {
       name,
       description,
+      id: { type: oracledb.NUMBER, dir: oracledb.BIND_OUT },
     });
 
+    const [id] = res.outBinds.id;
     return {
       id, name, description,
     };

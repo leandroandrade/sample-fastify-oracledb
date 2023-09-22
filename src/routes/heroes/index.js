@@ -1,15 +1,15 @@
 const { faker } = require('@faker-js/faker');
+const oracledb = require('oracledb');
 
 module.exports = async (fastify, opts) => {
   fastify.get('/seed/:total', async (req, reply) => {
     const { total } = req.params;
 
-    const sql = 'INSERT INTO heroes values (:id, :name, :description)';
+    const sql = 'INSERT INTO heroes (name, description) values (:name, :description)';
     const binds = [];
 
     for (let i = 0; i < total; i++) {
       binds.push({
-        id: faker.number.int({ max: Number.MAX_SAFE_INTEGER }),
         name: faker.person.firstName(),
         description: faker.lorem.words(),
       });
@@ -51,17 +51,18 @@ module.exports = async (fastify, opts) => {
 
   fastify.post('/', async (req, reply) => {
     const { name, description } = req.body;
-    const id = Math.floor(Math.random() * 1000);
 
     const res = await fastify.oracle.transact(conn => {
-      return conn.execute('INSERT INTO heroes values (:id, :name, :description)', {
-        id,
+      return conn.execute('INSERT INTO heroes (name, description) values (:name, :description) RETURN hero_id INTO :id', {
         name,
         description,
+        id: { type: oracledb.NUMBER, dir: oracledb.BIND_OUT },
       });
     });
 
     fastify.log.info(`rows affected: ${res.rowsAffected}`);
+
+    const [id] = res.outBinds.id;
 
     return reply
       .status(201)
