@@ -43,7 +43,7 @@ To run, install colima ([instructions](https://github.com/abiosoft/colima#instal
 
 Run **colima**:
 ```sh
-colima start --arch x86_64 --memory 6
+colima start --arch x86_64 --memory 4
 ```
 
 Start containers:
